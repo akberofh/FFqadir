@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:5501' ,'http://127.0.0.1:5500' , 'https://ffqadir.az'], // İzin verilen kaynaklar
+  origin: ['http://localhost:3000', 'http://127.0.0.1:5501' ,'http://127.0.0.1:5500' , 'https://ffqadir.az' , 'https://f-fqadir-adminpanel.vercel.app'], // İzin verilen kaynaklar
   credentials: true, // Cookies veya diğer kimlik bilgileri için gerekli
 }));
 
