@@ -17,13 +17,16 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-// Tüm kaynaklardan gelen isteklere izin veren CORS ayarı (* işareti ile)
 app.use(cors({
-  origin: '*', // Tüm kaynaklara izin ver
+  origin: ['http://localhost:3000', 'https://f-fqadir.vercel.app'], // İzin verilen kaynaklar
+  credentials: true, // Cookies veya diğer kimlik bilgileri için gerekli
 }));
 
-// Cookie parser middleware
+
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+
 
 const PORT = process.env.PORT || 5000;
 
