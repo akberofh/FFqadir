@@ -82,13 +82,22 @@ const qolbaqUpdate = async (req, res) => {
 
 const getQolbaq = async (req, res) => {
   try {
-    const allQolbaq = await QolbaqModel.find();
+    const page = parseInt(req.query.page) || 1; // Sayfa numarasını al
+    const limit = 10; // Her sayfada gösterilecek ürün sayısı
+    const skip = (page - 1) * limit;
+
+    const allQolbaq = await QolbaqModel.find()
+      .skip(skip)
+      .limit(limit)
+      .select('title price photo'); // İhtiyaç duyulan alanları seç
+
     res.json({ allQolbaq });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 const getByIdQolbaq = async (req, res) => {
   const { id } = req.params;
