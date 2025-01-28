@@ -48,9 +48,6 @@ const qolbaqUpdate = async (req, res) => {
     // Gelen verileri güncelle
     qolbaq.title = req.body.title !== undefined ? req.body.title : qolbaq.title;
     qolbaq.price = req.body.price !== undefined ? req.body.price : qolbaq.price;
-    qolbaq.stock = req.body.stock !== undefined ? req.body.stock : qolbaq.stock;
-    qolbaq.catagory = req.body.catagory !== undefined ? req.body.catagory : qolbaq.catagory;
-    qolbaq.description = req.body.description !== undefined ? req.body.description : qolbaq.description;
 
     // Eğer bir fotoğraf dosyası mevcutsa, base64 formatında güncelle
     if (req.file) {
@@ -67,9 +64,6 @@ const qolbaqUpdate = async (req, res) => {
     res.json({
       _id: updateQolbaq._id,
       title: updateQolbaq.title,
-      catagory: updateQolbaq.catagory,
-      stock: updateQolbaq.stock,
-      description: updateQolbaq.description,
       photo: updateQolbaq.photo,
       price: updateQolbaq.price, // Fiyatı da yanıt olarak ekleyin
     });
