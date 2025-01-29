@@ -79,14 +79,14 @@ const getQolbaq = async (req, res) => {
 const getByIdQolbaq = async (req, res) => {
   const { id } = req.params;
   try {
-    const getById = await QolbaqModel.findById(id);
-    if (!getById) {
-      return res.status(404).json({ error: "Note not found" });
-    }
-    res.json({ getById });
+      const getById = await QolbaqModel.findById(id);
+      if (!getById) {
+          return res.status(404).json({ error: "Note not found" });
+      }
+      res.json({ getById });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
