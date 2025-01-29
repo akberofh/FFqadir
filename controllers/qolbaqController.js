@@ -33,45 +33,37 @@ const qolbaqAdd = async (req, res) => {
 
 
 const qolbaqUpdate = async (req, res) => {
-  const { id } = req.params; // Parametrelerden ID'yi al
-  try {
-    // Belirtilen ID ile bir Pubg kaydı bul
-    const qolbaq = await QolbaqModel.findById(id);
+  const { id } = req.params;
 
+  try {
+    const qolbaq = await QolbaqModel.findById(id);
     if (!qolbaq) {
-      return res.status(404).json({ message: 'qolbaq post not found' });
+      return res.status(404).json({ message: "qolbaq post not found" });
     }
 
-    // Güncelleme işleminden önce mevcut veriyi kontrol et
-    console.log("Önceki Veri: ", qolbaq);
+    // Güncellenmiş veriyi konsolda kontrol et
+    console.log("Gelen Güncelleme:", req.body);
 
     // Gelen verileri güncelle
-    qolbaq.title = req.body.title !== undefined ? req.body.title : qolbaq.title;
-    qolbaq.price = req.body.price !== undefined ? req.body.price : qolbaq.price;
+    qolbaq.title = req.body.title || qolbaq.title;
+    qolbaq.price = req.body.price || qolbaq.price;
 
-    // Eğer bir fotoğraf dosyası mevcutsa, base64 formatında güncelle
+    // Fotoğraf güncelleme (Eğer formda fotoğraf varsa)
     if (req.file) {
-      qolbaq.photo = req.file.buffer.toString('base64');
+      qolbaq.photo = req.file.buffer.toString("base64");
     }
 
-    // Güncellenmiş dest kaydını kaydet
-    const updateQolbaq = await qolbaq.save();
+    // Kaydet ve döndür
+    const updatedQolbaq = await qolbaq.save();
+    console.log("Güncellenmiş Veri:", updatedQolbaq);
 
-    // Güncellenmeden sonraki veriyi kontrol et
-    console.log("Güncellenmiş Veri: ", updateQolbaq);
-
-    // Güncellenmiş veriyi döndür
-    res.json({
-      _id: updateQolbaq._id,
-      title: updateQolbaq.title,
-      photo: updateQolbaq.photo,
-      price: updateQolbaq.price, // Fiyatı da yanıt olarak ekleyin
-    });
+    res.json(updatedQolbaq);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
   }
 };
+
 
 
 const getQolbaq = async (req, res) => {
