@@ -9,27 +9,41 @@ import cors from 'cors';
 
 dotenv.config();
 
-// Cron job çalıştır
-
 // Veritabanına bağlan
 connectDB();
 
 const app = express();
-app.use(express.json());
+const PORT = process.env.PORT || 5000;
+
+// CORS Middleware Ayarı
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:5501',
+  'http://127.0.0.1:5500',
+  'https://ffqadir.az',
+  'https://f-fqadir-adminpanel.vercel.app'
+];
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:5501' ,'http://127.0.0.1:5500' , 'https://ffqadir.az' , 'https://f-fqadir-adminpanel.vercel.app'], // İzin verilen kaynaklar
-  credentials: true, // Cookies veya diğer kimlik bilgileri için gerekli
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS policy hatası: Erişim engellendi.'));
+    }
+  },
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
+// OPTIONS Preflight Middleware (CORS için gereklidir)
+app.options('*', cors());
 
-
+// Middleware
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-
-
-const PORT = process.env.PORT || 5000;
 
 // API yolları
 app.use('/api/users', userRoutes);
@@ -38,9 +52,7 @@ app.use('/api/mobile', qolbaqRoutes);
 
 // Ana sayfa rotası
 app.get('/', (req, res) => {
-  res.json({
-    message: 'Welcome',
-  });
+  res.json({ message: 'Welcome' });
 });
 
 // Sunucuyu başlat
