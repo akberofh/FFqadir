@@ -4,8 +4,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "server": "node server",
-    "build": "npm install && node server.js"
+    "server": "node server.js",
+    "build": "npm install"
   },
   "keywords": [],
   "author": "",
