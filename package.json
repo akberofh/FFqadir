@@ -4,7 +4,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "server": "node server"
+    "server": "node server",
+    "build": "npm build"
   },
   "keywords": [],
   "author": "",
