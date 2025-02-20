@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "server": "node server",
-    "build": "npm build"
+    "build": "node server"
   },
   "keywords": [],
   "author": "",
